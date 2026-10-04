@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>حاسبة شحن AQX المدمجة</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Tajawal', sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-900 text-white p-3">
+  <div class="border border-blue-500 rounded-xl p-3 bg-gray-800 shadow-lg">
+    <div class="flex items-center justify-between border-b border-gray-700 pb-2 mb-3">
+      <div class="flex items-center space-x-2 space-x-reverse">
+        <span class="text-xl">✈️</span>
+        <span class="font-extrabold text-blue-400 text-sm">حاسبة الشحن من أمريكا</span>
+      </div>
+      <span class="bg-emerald-600 text-white text-xs font-bold px-2 py-0.5 rounded">0% ضريبة كاليفورنيا</span>
+    </div>
+
+    <div class="space-y-2 text-xs">
+      <div>
+        <label class="block text-gray-400 mb-1">الوجهة:</label>
+        <select id="country" class="w-full bg-gray-700 border border-gray-600 rounded p-1.5 text-white font-bold outline-none">
+          <option value="SA">المملكة العربية السعودية (شحن 2-4 أيام)</option>
+          <option value="AE">الإمارات العربية المتحدة (دبي / أبوظبي)</option>
+          <option value="KW">الكويت</option>
+          <option value="QA">قطر</option>
+          <option value="BH">البحرين</option>
+          <option value="OM">سلطنة عمان</option>
+        </select>
+      </div>
+
+      <div>
+        <div class="flex justify-between text-gray-400 mb-1">
+          <span>الوزن (كيلوغرام):</span>
+          <span id="w-badge" class="text-blue-400 font-bold">5.0 كغ</span>
+        </div>
+        <input type="range" id="weight" min="0.5" max="30" step="0.5" value="5" class="w-full h-1.5 bg-gray-700 rounded appearance-none cursor-pointer accent-blue-500">
+      </div>
+
+      <div class="bg-gray-900 rounded-lg p-2.5 border border-gray-700">
+        <div class="flex justify-between items-center text-xs mb-1">
+          <span class="text-gray-400">سعر الشحن الجوي:</span>
+          <span id="rate-badge" class="text-emerald-400 font-bold">$15.50 / كغ</span>
+        </div>
+        <div class="flex justify-between items-center text-sm font-bold border-t border-gray-700 pt-1.5 mt-1">
+          <span>إجمالي الشحن التقديري:</span>
+          <span id="total-val" class="text-blue-400 text-base font-extrabold">$77.50 (290.63 ر.س)</span>
+        </div>
+      </div>
+
+      <a href="https://aqxlogistics.com/register" target="_blank" class="block text-center bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-2 rounded-lg text-xs transition">
+        احصل على عنوانك الأمريكي مجاناً &larr;
+      </a>
+
+      <div class="text-center text-[10px] text-gray-400 pt-1">
+        مدعوم من <a href="https://aqxlogistics.com" target="_blank" class="text-blue-400 font-bold hover:underline">AQX Logistics</a> • لوس أنجلوس (LAX)
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const wInput = document.getElementById('weight');
+    const wBadge = document.getElementById('w-badge');
+    const rateBadge = document.getElementById('rate-badge');
+    const totalVal = document.getElementById('total-val');
+
+    function update() {
+      const w = parseFloat(wInput.value);
+      wBadge.textContent = w.toFixed(1) + ' كغ';
+      const rate = w >= 8 ? 8.50 : 15.50;
+      rateBadge.textContent = '$' + rate.toFixed(2) + ' / كغ ' + (w >= 8 ? '(باقة مخفضة)' : '');
+      const totalUsd = w * rate;
+      const totalSar = totalUsd * 3.75;
+      totalVal.textContent = '$' + totalUsd.toFixed(2) + ' (' + totalSar.toFixed(2) + ' ر.س)';
+    }
+
+    wInput.addEventListener('input', update);
+    update();
+  </script>
+</body>
+</html>
